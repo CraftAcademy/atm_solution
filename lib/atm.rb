@@ -40,10 +40,22 @@ class Atm
     # We also DEDUCT the amount from the accounts balance
     account.balance = account.balance - amount
     # and we return a responce for a successfull withdraw.
-    { status: true, message: 'success', date: Date.today, amount: amount }
+    { status: true, message: 'success', date: Date.today, amount: amount, bills: add_bills(amount) }
   end
 
   def incorrect_pin?(pin_code, actual_pin)
     pin_code != actual_pin
+  end
+
+  def add_bills(amount)
+    denominations = [20, 10, 5]
+    bills = []
+    denominations.each do |bill|
+      while amount - bill >= 0
+        amount -= bill
+        bills << bill
+      end
+    end
+    bills
   end
 end

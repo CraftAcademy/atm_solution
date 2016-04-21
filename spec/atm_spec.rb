@@ -22,18 +22,12 @@ describe Atm do
   end
 
   it 'allow withdraw if account has enough balance.' do
-    # We need to tell the spec what to look for as the responce
-    # and store that in a variable called `expected_outcome`.
-    # Please note that we are omitting the `bills` part at the moment,
-    # We will modify this test and add that later.
-
-    expected_output = { status: true, message: 'success', date: Date.today, amount: 45 }
-
-    # We need to pass in two arguments to the `withdraw` method.
-    # The amount of money we want to withdraw AND the `account` object.
-    # The reason we pass in the `account` object is that the Atm needs
-    # to be able to access information about the `accounts` balance
-    # in order to be able to clear the transaction.
+    expected_output = {
+      status: true,
+      message: 'success',
+      date: Date.today,
+      amount: 45,
+      bills: [20, 20, 5] }
     expect(subject.withdraw(45, '1234', account)).to eq expected_output
   end
 
