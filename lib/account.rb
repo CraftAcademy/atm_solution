@@ -1,8 +1,9 @@
 class Account
-  attr_accessor :pin_code
+  attr_accessor :pin_code, :balance
 
   def initialize
     @pin_code = generate_pin
+    @balance = 0
   end
 
   private
