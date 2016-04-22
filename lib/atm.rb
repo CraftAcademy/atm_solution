@@ -15,6 +15,8 @@ class Atm
       { status: false, message: 'wrong pin', date: Date.today }
     when card_expired?(account.exp_date) then
       { status: false, message: 'card expired', date: Date.today }
+    when card_disabled?(account.account_status) then
+      { status: false, message: 'card disabled', date: Date.today }
     else
       perform_transaction(amount, account)
     end
@@ -34,6 +36,14 @@ class Atm
     Date.strptime(exp_date, '%m/%y') < Date.today
   end
 
+  def incorrect_pin?(pin_code, actual_pin)
+    pin_code != actual_pin
+  end
+
+  def card_disabled?(account_status)
+    account_status != :active
+  end
+
   def perform_transaction(amount, account)
     # We DEDUCT the amount from the Atm's funds
     @funds -= amount
@@ -41,10 +51,6 @@ class Atm
     account.balance = account.balance - amount
     # and we return a responce for a successfull withdraw.
     { status: true, message: 'success', date: Date.today, amount: amount, bills: add_bills(amount) }
-  end
-
-  def incorrect_pin?(pin_code, actual_pin)
-    pin_code != actual_pin
   end
 
   def add_bills(amount)
