@@ -1,4 +1,3 @@
-require 'pry-byebug'
 class Account
   attr_accessor :pin_code, :balance, :exp_date, :account_status, :owner
   STANDARD_VALIDITY_YRS = 5
