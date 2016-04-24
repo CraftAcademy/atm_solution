@@ -1,4 +1,4 @@
-require './lib/person'
+require './lib/person' 
 require './lib/atm'
 
 describe Person do 
