@@ -25,6 +25,7 @@ class Person
     private
     
     def deposit_funds(amount) 
+        @cash -= amount
        @account.balance += amount 
     end
     

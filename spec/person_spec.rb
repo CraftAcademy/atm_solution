@@ -1,4 +1,5 @@
 require './lib/person'
+require './lib/atm'
 
 describe Person do 
     
@@ -21,6 +22,9 @@ describe Person do
     end
     
     describe 'can create an Account' do
+        # As a Person,
+        # in order to be able to use banking services to manage my funds,
+        # i would like to be able to create a bank account
         before { subject.create_account }
        it 'of Account class ' do
            expect(subject.account).to be_an_instance_of Account
@@ -32,15 +36,33 @@ describe Person do
     end
     
     describe 'can manage funds if an account been created' do 
+        let(:atm) { Atm.new }
+        # As a Person with a Bank Account,
+        # in order to be able to put my funds in the account ,
+        # i would like to be able to make a deposit
        before { subject.create_account }
        it 'can deposit funds' do 
           expect(subject.deposit(100)).to be_truthy
        end
        
-       it 'funds are added to the accounst balance' do 
+       it 'funds are added to the accounst balance - deducted from cash' do
+           subject.cash = 100
           subject.deposit(100)
           expect(subject.account.balance).to be 100
+          expect(subject.cash).to be 0
        end
+       
+       it 'can withdraw funds' do 
+           command = lambda {subject.withdraw(amount: 100, pin: subject.account.pin_code, account: subject.account, atm: atm)}
+          expect(command.call).to be_truthy 
+       end 
+       
+        it 'funds are added to cash - deducted from accounst balance' do 
+            subject.deposit(100)
+            subject.withdraw(amount: 100, pin: subject.account.pin_code, account: subject.account, atm: atm)
+          expect(subject.account.balance).to be 0
+          expect(subject.cash).to be 100
+       end 
     end
     
     describe 'can not manage funds if no account been created' do 
