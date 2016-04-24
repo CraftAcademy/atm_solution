@@ -5,7 +5,7 @@ class Account
 
   def initialize(attrs = {})
     @pin_code = generate_pin
-    @balance = 0
+    @balance = attrs[:balance] || 0
     @exp_date = set_exp_date
     @account_status = :active
     set_owner(attrs[:owner])
