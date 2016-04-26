@@ -3,7 +3,7 @@ require './lib/account'
 describe Account do
 
   let(:person) {instance_double('Person', name: 'Thomas')}
-  subject {described_class.new({owner: person})}
+  subject { described_class.new({owner: person}) }
 
   it 'is expected to have a 4 digit pin number on initialize' do
     pin_length = Math.log10(subject.pin_code).to_i + 1
@@ -15,7 +15,7 @@ describe Account do
   end
 
   it 'is expected to have an expiry date on initialize' do
-		expected_date = Date.today.next_year(5).strftime("%m/%y")
+		expected_date = Date.today.next_year(5).strftime('%m/%y')
 		expect(subject.exp_date).to eq expected_date
 	end
 
